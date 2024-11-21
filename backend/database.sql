@@ -141,7 +141,8 @@ CREATE TABLE `usuarios` (
   `fecha_registro` date DEFAULT NULL,
   `correo` varchar(100) DEFAULT NULL,
   `estatus` enum('Registrado','Baja','Vetado') DEFAULT NULL,
-  `registro_caducado` tinyint(1) DEFAULT '0'
+  `registro_caducado` tinyint(1) DEFAULT '0',
+  `contrasena` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -250,6 +251,14 @@ INSERT INTO `libros` (`libro_id`, `titulo`, `autor`, `genero`, `editorial`, `edi
 (16, 'Steve Jobs', 'Autor 16', 'Biografía', 'Editorial 16', '16va', '4455667788', 2006, 'Español', 'disponible', 'Prólogo del libro 16', 'Autor del prólogo 16', 2),
 (17, 'El diario de Ana Frank', 'Autor 17', 'Biografía', 'Editorial 17', '17va', '5566778899', 2005, 'Español', 'disponible', 'Prólogo del libro 17', 'Autor del prólogo 17', 6),
 (18, 'Long Walk to Freedom', 'Autor 18', 'Biografía', 'Editorial 18', '18va', '6677889900', 2004, 'Español', 'disponible', 'Prólogo del libro 18', 'Autor del prólogo 18', 7);
+
+-- Add contrasena column to usuarios table
+ALTER TABLE `usuarios`
+  ADD `contrasena` varchar(255) NOT NULL AFTER `correo`;
+
+-- Insert a new user into `usuarios` table
+INSERT INTO `usuarios` (`usuario_id`, `nombre`, `apellidos`, `fecha_nacimiento`, `telefono`, `direccion`, `identificacion`, `comprobante_domicilio`, `fecha_registro`, `correo`, `contrasena`, `estatus`, `registro_caducado`) VALUES
+(1, 'Juan', 'Aguilera', '1990-01-01', '1234567890', 'Calle Falsa 123', 'ABC123456', 'comprobante.jpg', '2024-01-01', 'juan@example.com', 'password123', 'Registrado', 0);
 
 COMMIT;
 
