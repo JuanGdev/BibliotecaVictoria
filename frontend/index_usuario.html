@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Victoria - Usuario</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">Biblioteca Victoria</div>
+        <nav>
+            <ul>
+                <li><a href="../frontend/inicio_sesion.html">Iniciar Sesión</a></li>
+                <li><a href="libros.html">Libros</a></li>
+                <li><a href="espacios.html">Espacios</a></li>
+                <li><a href="carrito.html"><img src="../assets/icons/icon_personal_library.png" alt="Carrito"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="carrusel">
+        <!-- Carrusel de imágenes o texto -->
+        <div class="slide"><img src="../assets/carrousel_1.jpg" alt="Imagen 1"></div>
+        <div class="slide"><img src="../assets/carrousel_2.jpg" alt="Imagen 2"></div>
+        <div class="slide"><img src="../assets/carrousel_3.jpg" alt="Imagen 3"></div>
+    </div>
+    <div class="content">
+        <main>
+            <section class="libros-disponibles">
+                <h2>Libros Disponibles</h2>
+                <div id="librero-container"></div>
+            </section>
+        </main>
+        <aside class="book-info-panel">
+            <h3>Información del Libro</h3>
+            <p><strong>Sinopsis:</strong> <span id="sinopsis"></span></p>
+            <p><strong>Autor:</strong> <span id="autor"></span></p>
+            <p><strong>Editorial:</strong> <span id="editorial"></span></p>
+            <p><strong>Año de Publicación:</strong> <span id="anio"></span></p>
+            <p><strong>Edición:</strong> <span id="edicion"></span></p>
+            <p><strong>ISBN:</strong> <span id="isbn"></span></p>
+        </aside>
+        <footer>
+            <p>Hecho con 🩷📚 por <a href="https://halved-exception-51f.notion.site/juan-aguilera-portfolio"
+                    target="_blank">JuanGdev</a></p>
+        </footer>
+    </div>
+    <script src="../scripts/carousel_and_book_info.js"></script>
+</body>
+</html>
