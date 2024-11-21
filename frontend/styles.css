@@ -1,0 +1,149 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+}
+
+header .logo {
+    font-size: 1.5em;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+header nav ul li {
+    margin-left: 20px;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+header nav ul li a img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Carrusel styles */
+.carrusel {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    height: 200px;
+    margin: 20px 0;
+    position: relative;
+}
+
+.carrusel .slide {
+    min-width: 100%;
+    transition: transform 0.5s ease-in-out;
+}
+
+/* Librero styles */
+.libros-disponibles {
+    padding: 20px;
+}
+
+.libros-disponibles h2 {
+    margin-bottom: 20px;
+}
+
+.categoria {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: white;
+    position: absolute;
+}
+
+.librero {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.libro {
+    height: 150px; /* Simulate the height of a real book */
+    color: white;
+    padding: 5px;
+    margin: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    background-color: var(--book-color); /* Use CSS variable for book color */
+}
+
+.libro:hover {
+    transform: scale(1.1);
+}
+
+/* Define possible book colors */
+:root {
+    --book-color-1: #4CAF50;
+    --book-color-2: #FF5722;
+    --book-color-3: #2196F3;
+    --book-color-4: #FFC107;
+    --book-color-5: #9C27B0;
+}
+
+.base-madera {
+    width: 110%; /* Increase the width */
+    height: 50px;
+    background-color: #8B4513;
+    margin-top: 10px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 60px; /* Add margin to prevent overlap with footer */
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* Change to relative */
+    bottom: 0;
+}
+
+footer a {
+    color: #FF4081;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+.book-info-panel {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    background-color: #f4f4f4;
+    border-left: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+    display: none; /* Initially hidden */
+    overflow-y: auto;
+}
