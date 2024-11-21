@@ -1,4 +1,3 @@
-
 -- phpMyAdmin SQL Dump
 -- version 5.1.2
 -- https://www.phpmyadmin.net/
@@ -228,8 +227,29 @@ ALTER TABLE `penalizaciones`
 ALTER TABLE `reservasespacios`
   ADD CONSTRAINT `reservasespacios_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`usuario_id`),
   ADD CONSTRAINT `reservasespacios_ibfk_2` FOREIGN KEY (`espacio_id`) REFERENCES `espacios` (`espacio_id`);
+
+--
+-- Insert new books into `libros` table
+--
+INSERT INTO `libros` (`libro_id`, `titulo`, `autor`, `genero`, `editorial`, `edicion`, `ISBN`, `ano_publicacion`, `idioma`, `estado`, `prologo`, `autor_prologo`, `cantidad`) VALUES
+(1, 'Regina. 2 de octubre no se olvida', 'Autor 1', 'Ficción', 'Editorial 1', '1ra', '1234567890', 2021, 'Español', 'disponible', 'Prólogo del libro 1', 'Autor del prólogo 1', 5),
+(2, 'La rosa blanca', 'Autor 2', 'Ficción', 'Editorial 2', '2da', '0987654321', 2020, 'Español', 'disponible', 'Prólogo del libro 2', 'Autor del prólogo 2', 3),
+(3, 'La rebelión de los colgados', 'Autor 3', 'Ficción', 'Editorial 3', '3ra', '1122334455', 2019, 'Español', 'disponible', 'Prólogo del libro 3', 'Autor del prólogo 3', 4),
+(4, 'El origen de las especies', 'Autor 4', 'Ciencia', 'Editorial 4', '4ta', '2233445566', 2018, 'Español', 'disponible', 'Prólogo del libro 4', 'Autor del prólogo 4', 2),
+(5, 'Breve historia del tiempo', 'Autor 5', 'Ciencia', 'Editorial 5', '5ta', '3344556677', 2017, 'Español', 'disponible', 'Prólogo del libro 5', 'Autor del prólogo 5', 6),
+(6, 'Cosmos', 'Autor 6', 'Ciencia', 'Editorial 6', '6ta', '4455667788', 2016, 'Español', 'disponible', 'Prólogo del libro 6', 'Autor del prólogo 6', 7),
+(7, 'Sapiens', 'Autor 7', 'Historia', 'Editorial 7', '7ma', '5566778899', 2015, 'Español', 'disponible', 'Prólogo del libro 7', 'Autor del prólogo 7', 5),
+(8, 'Guerra y paz', 'Autor 8', 'Historia', 'Editorial 8', '8va', '6677889900', 2014, 'Español', 'disponible', 'Prólogo del libro 8', 'Autor del prólogo 8', 3),
+(9, 'El diario de Ana Frank', 'Autor 9', 'Historia', 'Editorial 9', '9na', '7788990011', 2013, 'Español', 'disponible', 'Prólogo del libro 9', 'Autor del prólogo 9', 4),
+(10, 'El señor de los anillos', 'Autor 10', 'Fantasía', 'Editorial 10', '10ma', '8899001122', 2012, 'Español', 'disponible', 'Prólogo del libro 10', 'Autor del prólogo 10', 2),
+(11, 'Harry Potter', 'Autor 11', 'Fantasía', 'Editorial 11', '11va', '9900112233', 2011, 'Español', 'disponible', 'Prólogo del libro 11', 'Autor del prólogo 11', 6),
+(12, 'Crónicas de Narnia', 'Autor 12', 'Fantasía', 'Editorial 12', '12va', '0011223344', 2010, 'Español', 'disponible', 'Prólogo del libro 12', 'Autor del prólogo 12', 7),
+(13, 'El código Da Vinci', 'Autor 13', 'Misterio', 'Editorial 13', '13va', '1122334455', 2009, 'Español', 'disponible', 'Prólogo del libro 13', 'Autor del prólogo 13', 5),
+(14, 'Sherlock Holmes', 'Autor 14', 'Misterio', 'Editorial 14', '14va', '2233445566', 2008, 'Español', 'disponible', 'Prólogo del libro 14', 'Autor del prólogo 14', 3),
+(15, 'La chica del tren', 'Autor 15', 'Misterio', 'Editorial 15', '15va', '3344556677', 2007, 'Español', 'disponible', 'Prólogo del libro 15', 'Autor del prólogo 15', 4),
+(16, 'Steve Jobs', 'Autor 16', 'Biografía', 'Editorial 16', '16va', '4455667788', 2006, 'Español', 'disponible', 'Prólogo del libro 16', 'Autor del prólogo 16', 2),
+(17, 'El diario de Ana Frank', 'Autor 17', 'Biografía', 'Editorial 17', '17va', '5566778899', 2005, 'Español', 'disponible', 'Prólogo del libro 17', 'Autor del prólogo 17', 6),
+(18, 'Long Walk to Freedom', 'Autor 18', 'Biografía', 'Editorial 18', '18va', '6677889900', 2004, 'Español', 'disponible', 'Prólogo del libro 18', 'Autor del prólogo 18', 7);
+
 COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
