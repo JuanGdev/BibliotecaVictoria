@@ -76,6 +76,7 @@ CREATE TABLE `espacios` (
   `capacidad` int(11) DEFAULT NULL,
   `descripcion` text,
   `equipamiento` varchar(100) DEFAULT NULL,
+  `disponibilidad` enum('disponible','ocupado') DEFAULT 'disponible',
   PRIMARY KEY (`espacio_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -113,7 +114,7 @@ COMMIT;
 INSERT INTO `libros` (`titulo`, `autor`, `genero`, `editorial`, `edicion`, `ISBN`, `ano_publicacion`, `idioma`, `estado`, `prologo`, `autor_prologo`, `cantidad`) VALUES
 ('The Great Gatsby', 'F. Scott Fitzgerald', 'Fiction', 'Scribner', '1st', '9780743273565', 1925, 'English', 'disponible', 'A story about the Jazz Age', 'None', 5),
 ('To Kill a Mockingbird', 'Harper Lee', 'Fiction', 'J.B. Lippincott & Co.', '1st', '9780061120084', 1960, 'English', 'disponible', 'A novel about racial injustice', 'None', 3),
-('1984', 'George Orwell', 'Dystopian', 'Secker & Warburg', '1st', '9780451524935', 1949, 'English', 'disponible', 'A story about totalitarianism', 'None', 4);
+('1984', 'George Orwell', 'Dystopian', 'Secker & Warburg', '1st', '9780451524935', 1949, 'English', 'disponible', 'A story about totalitarianism', 'None', 4),
 ('Pride and Prejudice', 'Jane Austen', 'Romance', 'T. Egerton', '1st', '9781503290563', 1813, 'English', 'disponible', 'A classic novel about manners', 'None', 2),
 ('Moby Dick', 'Herman Melville', 'Adventure', 'Harper & Brothers', '1st', '9781503280786', 1851, 'English', 'disponible', 'A story about a giant whale', 'None', 3),
 ('War and Peace', 'Leo Tolstoy', 'Historical', 'The Russian Messenger', '1st', '9780199232765', 1869, 'Russian', 'disponible', 'A novel about the Napoleonic Wars', 'None', 1),
@@ -138,3 +139,9 @@ INSERT INTO `libros` (`titulo`, `autor`, `genero`, `editorial`, `edicion`, `ISBN
 INSERT INTO `usuarios` (`nombre`, `apellidos`, `fecha_nacimiento`, `telefono`, `direccion`, `identificacion`, `comprobante_domicilio`, `fecha_registro`, `correo`, `estatus`, `registro_caducado`, `contrasena`, `tipo_usuario`) VALUES
 ('Admin', 'User', '1980-01-01', '1234567890', '123 Admin St', 'A123456', 'admin_comprobante.jpg', CURDATE(), 'admin@example.com', 'Registrado', 0, 'adminpassword', 'admin'),
 ('Regular', 'User', '1990-01-01', '0987654321', '456 User St', 'U123456', 'user_comprobante.jpg', CURDATE(), 'user@example.com', 'Registrado', 0, 'userpassword', 'usuario');
+
+INSERT INTO `espacios` (`nombre_espacio`, `tipo_espacio`, `capacidad`, `ubicacion`, `descripcion`, `equipamiento`, `disponibilidad`) VALUES
+('Sala de Lectura', 'sala', 20, 'Primer Piso', 'Espacio tranquilo para lectura', 'Mesas, Sillas, Wi-Fi', 'disponible'),
+('Auditorio Principal', 'auditorio', 100, 'Segundo Piso', 'Auditorio para eventos y conferencias', 'Proyector, Sonido, Wi-Fi', 'disponible'),
+('Cubículo de Estudio 1', 'cubiculo', 4, 'Tercer Piso', 'Cubículo para estudio individual o en grupo pequeño', 'Mesa, Sillas, Wi-Fi', 'ocupado'),
+('Aula de Capacitación', 'aula', 30, 'Cuarto Piso', 'Aula para cursos y talleres', 'Pizarrón, Proyector, Wi-Fi', 'disponible');
