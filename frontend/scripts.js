@@ -55,4 +55,26 @@ document.addEventListener('DOMContentLoaded', () => {
             bookInfoPanel.style.display = 'block';
         });
     });
+
+    document.getElementById('add-book-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        fetch('../backend/add_book.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            const addBookMessage = document.getElementById('add-book-message');
+            if (data.status === 'success') {
+                addBookMessage.textContent = data.message;
+                addBookMessage.classList.add('text-success');
+                addBookMessage.classList.remove('text-danger');
+            } else {
+                addBookMessage.textContent = data.message;
+                addBookMessage.classList.add('text-danger');
+                addBookMessage.classList.remove('text-success');
+            }
+        });
+    });
 });
