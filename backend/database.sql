@@ -72,8 +72,10 @@ CREATE TABLE `penalizaciones` (
 
 CREATE TABLE `espacios` (
   `espacio_id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_espacio` varchar(100) DEFAULT NULL,
   `tipo_espacio` enum('sala','auditorio','cubiculo','aula') DEFAULT NULL,
   `capacidad` int(11) DEFAULT NULL,
+  `ubicacion` varchar(100) DEFAULT NULL,
   `descripcion` text,
   `equipamiento` varchar(100) DEFAULT NULL,
   `disponibilidad` enum('disponible','ocupado') DEFAULT 'disponible',
@@ -111,6 +113,7 @@ CREATE TABLE `eventos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 COMMIT;
+
 INSERT INTO `libros` (`titulo`, `autor`, `genero`, `editorial`, `edicion`, `ISBN`, `ano_publicacion`, `idioma`, `estado`, `prologo`, `autor_prologo`, `cantidad`) VALUES
 ('The Great Gatsby', 'F. Scott Fitzgerald', 'Fiction', 'Scribner', '1st', '9780743273565', 1925, 'English', 'disponible', 'A story about the Jazz Age', 'None', 5),
 ('To Kill a Mockingbird', 'Harper Lee', 'Fiction', 'J.B. Lippincott & Co.', '1st', '9780061120084', 1960, 'English', 'disponible', 'A novel about racial injustice', 'None', 3),
