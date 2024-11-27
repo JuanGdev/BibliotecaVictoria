@@ -217,14 +217,16 @@ footer a:hover {
     color: white;
     border-radius: 8px;
     position: relative;
+    border: 2px solid grey; /* Add grey border */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Add transition for animation */
 }
 
 .espacio.disponible {
-    background-color: green;
+    background-color: green; /* Change to green for available */
 }
 
 .espacio.ocupado {
-    background-color: red;
+    background-color: red; /* Change to red for occupied */
 }
 
 .espacio button {

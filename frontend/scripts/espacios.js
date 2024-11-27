@@ -12,12 +12,15 @@ async function fetchEspacios() {
         espacios.forEach(espacio => {
             const espacioDiv = document.createElement('div');
             espacioDiv.className = `espacio ${espacio.disponibilidad}`;
+            espacioDiv.setAttribute('data-id', espacio.espacio_id); // Add data-id attribute
             espacioDiv.innerHTML = `
-                <h3>${espacio.nombre_espacio}</h3>
-                <p>${espacio.descripcion}</p>
-                <button onclick="toggleReserva(${espacio.espacio_id}, '${espacio.disponibilidad}')">
-                    ${espacio.disponibilidad === 'disponible' ? 'Reservar' : 'Liberar'}
-                </button>
+                <div style="padding: 10px; background-color: ${espacio.disponibilidad === 'disponible' ? 'green' : 'red'};">
+                    <h3>${espacio.nombre_espacio}</h3>
+                    <p>${espacio.descripcion}</p>
+                    <button onclick="toggleReserva(${espacio.espacio_id}, '${espacio.disponibilidad}')">
+                        ${espacio.disponibilidad === 'disponible' ? 'Reservar' : 'Liberar'}
+                    </button>
+                </div>
             `;
             container.appendChild(espacioDiv);
         });
@@ -33,7 +36,12 @@ async function toggleReserva(espacioId, disponibilidad) {
         const result = await response.json();
 
         if (result.success) {
-            fetchEspacios();
+            const espacioDiv = document.querySelector(`.espacio[data-id="${espacioId}"]`);
+            if (espacioDiv) {
+                espacioDiv.classList.remove('disponible', 'ocupado'); // Remove existing classes
+                espacioDiv.classList.add(action === 'reservar' ? 'ocupado' : 'disponible'); // Add new class
+                espacioDiv.querySelector('button').innerText = action === 'reservar' ? 'Liberar' : 'Reservar'; // Update button text
+            }
         } else {
             alert('Error al cambiar la reserva');
         }
