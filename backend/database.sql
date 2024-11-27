@@ -1,82 +1,12 @@
--- phpMyAdmin SQL Dump
--- version 5.1.2
--- https://www.phpmyadmin.net/
---
--- Host: localhost:3306
--- Generation Time: Nov 21, 2024 at 12:40 AM
--- Server version: 5.7.24
--- PHP Version: 8.3.1
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `biblioteca`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `espacios`
---
-
-CREATE TABLE `espacios` (
-  `espacio_id` int(11) NOT NULL,
-  `tipo_espacio` enum('sala','auditorio','cubiculo','aula') DEFAULT NULL,
-  `capacidad` int(11) DEFAULT NULL,
-  `descripcion` text,
-  `equipamiento` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `eventos`
---
-
-CREATE TABLE `eventos` (
-  `evento_id` int(11) NOT NULL,
-  `usuario_id` int(11) DEFAULT NULL,
-  `nombre_evento` varchar(100) DEFAULT NULL,
-  `descripcion` text,
-  `cantidad_asistentes` int(11) DEFAULT NULL,
-  `fecha_evento` date DEFAULT NULL,
-  `hora_inicio` time DEFAULT NULL,
-  `hora_fin` time DEFAULT NULL,
-  `aprobado` tinyint(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `historialprestamos`
---
-
-CREATE TABLE `historialprestamos` (
-  `prestamo_id` int(11) NOT NULL,
-  `usuario_id` int(11) DEFAULT NULL,
-  `libro_id` int(11) DEFAULT NULL,
-  `fecha_prestamo` date DEFAULT NULL,
-  `fecha_devolucion` date DEFAULT NULL,
-  `fecha_limite` date DEFAULT NULL,
-  `estado_prestamo` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `libros`
---
+CREATE DATABASE IF NOT EXISTS biblioteca;
+USE biblioteca;
 
 CREATE TABLE `libros` (
-  `libro_id` int(11) NOT NULL,
+  `libro_id` int(11) NOT NULL AUTO_INCREMENT,
   `titulo` varchar(100) DEFAULT NULL,
   `autor` varchar(50) DEFAULT NULL,
   `genero` varchar(30) DEFAULT NULL,
@@ -88,49 +18,12 @@ CREATE TABLE `libros` (
   `estado` enum('disponible','prestado','dañado','extraviado') DEFAULT NULL,
   `prologo` text,
   `autor_prologo` text,
-  `cantidad` int(11) DEFAULT NULL
+  `cantidad` int(11) DEFAULT NULL,
+  PRIMARY KEY (`libro_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `penalizaciones`
---
-
-CREATE TABLE `penalizaciones` (
-  `penalizacion_id` int(11) NOT NULL,
-  `usuario_id` int(11) DEFAULT NULL,
-  `prestamo_id` int(11) DEFAULT NULL,
-  `tipo_penalizacion` enum('multa','suspension') DEFAULT NULL,
-  `monto` decimal(10,2) DEFAULT NULL,
-  `fecha_penalizacion` date DEFAULT NULL,
-  `estado_penalizacion` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `reservasespacios`
---
-
-CREATE TABLE `reservasespacios` (
-  `reserva_id` int(11) NOT NULL,
-  `usuario_id` int(11) DEFAULT NULL,
-  `espacio_id` int(11) DEFAULT NULL,
-  `fecha_reserva` date DEFAULT NULL,
-  `hora_inicio` time DEFAULT NULL,
-  `hora_fin` time DEFAULT NULL,
-  `estatus_reserva` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `usuarios`
---
 
 CREATE TABLE `usuarios` (
-  `usuario_id` int(11) NOT NULL,
+  `usuario_id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) DEFAULT NULL,
   `apellidos` varchar(50) DEFAULT NULL,
   `fecha_nacimiento` date DEFAULT NULL,
@@ -142,123 +35,116 @@ CREATE TABLE `usuarios` (
   `correo` varchar(100) DEFAULT NULL,
   `estatus` enum('Registrado','Baja','Vetado') DEFAULT NULL,
   `registro_caducado` tinyint(1) DEFAULT '0',
-  `contrasena` varchar(255) NOT NULL
+  `contrasena` varchar(255) NOT NULL,
+  `tipo_usuario` enum('admin', 'usuario') DEFAULT 'usuario',
+  PRIMARY KEY (`usuario_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Indexes for dumped tables
---
+CREATE TABLE `historialprestamos` (
+  `prestamo_id` int(11) NOT NULL AUTO_INCREMENT,
+  `usuario_id` int(11) DEFAULT NULL,
+  `libro_id` int(11) DEFAULT NULL,
+  `fecha_prestamo` date DEFAULT NULL,
+  `fecha_devolucion` date DEFAULT NULL,
+  `fecha_limite` date DEFAULT NULL,
+  `estado_prestamo` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`prestamo_id`),
+  KEY `usuario_id` (`usuario_id`),
+  KEY `libro_id` (`libro_id`),
+  CONSTRAINT `historialprestamos_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`usuario_id`),
+  CONSTRAINT `historialprestamos_ibfk_2` FOREIGN KEY (`libro_id`) REFERENCES `libros` (`libro_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Indexes for table `espacios`
---
-ALTER TABLE `espacios`
-  ADD PRIMARY KEY (`espacio_id`);
+CREATE TABLE `penalizaciones` (
+  `penalizacion_id` int(11) NOT NULL AUTO_INCREMENT,
+  `usuario_id` int(11) DEFAULT NULL,
+  `prestamo_id` int(11) DEFAULT NULL,
+  `tipo_penalizacion` enum('multa','suspension') DEFAULT NULL,
+  `monto` decimal(10,2) DEFAULT NULL,
+  `fecha_penalizacion` date DEFAULT NULL,
+  `estado_penalizacion` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`penalizacion_id`),
+  KEY `usuario_id` (`usuario_id`),
+  KEY `prestamo_id` (`prestamo_id`),
+  CONSTRAINT `penalizaciones_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`usuario_id`),
+  CONSTRAINT `penalizaciones_ibfk_2` FOREIGN KEY (`prestamo_id`) REFERENCES `historialprestamos` (`prestamo_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Indexes for table `eventos`
---
-ALTER TABLE `eventos`
-  ADD PRIMARY KEY (`evento_id`),
-  ADD KEY `usuario_id` (`usuario_id`);
+CREATE TABLE `espacios` (
+  `espacio_id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_espacio` varchar(100) DEFAULT NULL,
+  `tipo_espacio` enum('sala','auditorio','cubiculo','aula') DEFAULT NULL,
+  `capacidad` int(11) DEFAULT NULL,
+  `ubicacion` varchar(100) DEFAULT NULL,
+  `descripcion` text,
+  `equipamiento` varchar(100) DEFAULT NULL,
+  `disponibilidad` enum('disponible','ocupado') DEFAULT 'disponible',
+  PRIMARY KEY (`espacio_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Indexes for table `historialprestamos`
---
-ALTER TABLE `historialprestamos`
-  ADD PRIMARY KEY (`prestamo_id`),
-  ADD KEY `usuario_id` (`usuario_id`),
-  ADD KEY `libro_id` (`libro_id`);
+CREATE TABLE `reservasespacios` (
+  `reserva_id` int(11) NOT NULL AUTO_INCREMENT,
+  `usuario_id` int(11) DEFAULT NULL,
+  `espacio_id` int(11) DEFAULT NULL,
+  `fecha_reserva` date DEFAULT NULL,
+  `hora_inicio` time DEFAULT NULL,
+  `hora_fin` time DEFAULT NULL,
+  `estatus_reserva` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`reserva_id`),
+  KEY `usuario_id` (`usuario_id`),
+  KEY `espacio_id` (`espacio_id`),
+  CONSTRAINT `reservasespacios_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`usuario_id`),
+  CONSTRAINT `reservasespacios_ibfk_2` FOREIGN KEY (`espacio_id`) REFERENCES `espacios` (`espacio_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Indexes for table `libros`
---
-ALTER TABLE `libros`
-  ADD PRIMARY KEY (`libro_id`);
-
---
--- Indexes for table `penalizaciones`
---
-ALTER TABLE `penalizaciones`
-  ADD PRIMARY KEY (`penalizacion_id`),
-  ADD KEY `usuario_id` (`usuario_id`),
-  ADD KEY `prestamo_id` (`prestamo_id`);
-
---
--- Indexes for table `reservasespacios`
---
-ALTER TABLE `reservasespacios`
-  ADD PRIMARY KEY (`reserva_id`),
-  ADD KEY `usuario_id` (`usuario_id`),
-  ADD KEY `espacio_id` (`espacio_id`);
-
---
--- Indexes for table `usuarios`
---
-ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`usuario_id`);
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `eventos`
---
-ALTER TABLE `eventos`
-  ADD CONSTRAINT `eventos_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`usuario_id`);
-
---
--- Constraints for table `historialprestamos`
---
-ALTER TABLE `historialprestamos`
-  ADD CONSTRAINT `historialprestamos_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`usuario_id`),
-  ADD CONSTRAINT `historialprestamos_ibfk_2` FOREIGN KEY (`libro_id`) REFERENCES `libros` (`libro_id`);
-
---
--- Constraints for table `penalizaciones`
---
-ALTER TABLE `penalizaciones`
-  ADD CONSTRAINT `penalizaciones_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`usuario_id`),
-  ADD CONSTRAINT `penalizaciones_ibfk_2` FOREIGN KEY (`prestamo_id`) REFERENCES `historialprestamos` (`prestamo_id`);
-
---
--- Constraints for table `reservasespacios`
---
-ALTER TABLE `reservasespacios`
-  ADD CONSTRAINT `reservasespacios_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`usuario_id`),
-  ADD CONSTRAINT `reservasespacios_ibfk_2` FOREIGN KEY (`espacio_id`) REFERENCES `espacios` (`espacio_id`);
-
---
--- Insert new books into `libros` table
---
-INSERT INTO `libros` (`libro_id`, `titulo`, `autor`, `genero`, `editorial`, `edicion`, `ISBN`, `ano_publicacion`, `idioma`, `estado`, `prologo`, `autor_prologo`, `cantidad`) VALUES
-(1, 'Regina. 2 de octubre no se olvida', 'Autor 1', 'Ficción', 'Editorial 1', '1ra', '1234567890', 2021, 'Español', 'disponible', 'Prólogo del libro 1', 'Autor del prólogo 1', 5),
-(2, 'La rosa blanca', 'Autor 2', 'Ficción', 'Editorial 2', '2da', '0987654321', 2020, 'Español', 'disponible', 'Prólogo del libro 2', 'Autor del prólogo 2', 3),
-(3, 'La rebelión de los colgados', 'Autor 3', 'Ficción', 'Editorial 3', '3ra', '1122334455', 2019, 'Español', 'disponible', 'Prólogo del libro 3', 'Autor del prólogo 3', 4),
-(4, 'El origen de las especies', 'Autor 4', 'Ciencia', 'Editorial 4', '4ta', '2233445566', 2018, 'Español', 'disponible', 'Prólogo del libro 4', 'Autor del prólogo 4', 2),
-(5, 'Breve historia del tiempo', 'Autor 5', 'Ciencia', 'Editorial 5', '5ta', '3344556677', 2017, 'Español', 'disponible', 'Prólogo del libro 5', 'Autor del prólogo 5', 6),
-(6, 'Cosmos', 'Autor 6', 'Ciencia', 'Editorial 6', '6ta', '4455667788', 2016, 'Español', 'disponible', 'Prólogo del libro 6', 'Autor del prólogo 6', 7),
-(7, 'Sapiens', 'Autor 7', 'Historia', 'Editorial 7', '7ma', '5566778899', 2015, 'Español', 'disponible', 'Prólogo del libro 7', 'Autor del prólogo 7', 5),
-(8, 'Guerra y paz', 'Autor 8', 'Historia', 'Editorial 8', '8va', '6677889900', 2014, 'Español', 'disponible', 'Prólogo del libro 8', 'Autor del prólogo 8', 3),
-(9, 'El diario de Ana Frank', 'Autor 9', 'Historia', 'Editorial 9', '9na', '7788990011', 2013, 'Español', 'disponible', 'Prólogo del libro 9', 'Autor del prólogo 9', 4),
-(10, 'El señor de los anillos', 'Autor 10', 'Fantasía', 'Editorial 10', '10ma', '8899001122', 2012, 'Español', 'disponible', 'Prólogo del libro 10', 'Autor del prólogo 10', 2),
-(11, 'Harry Potter', 'Autor 11', 'Fantasía', 'Editorial 11', '11va', '9900112233', 2011, 'Español', 'disponible', 'Prólogo del libro 11', 'Autor del prólogo 11', 6),
-(12, 'Crónicas de Narnia', 'Autor 12', 'Fantasía', 'Editorial 12', '12va', '0011223344', 2010, 'Español', 'disponible', 'Prólogo del libro 12', 'Autor del prólogo 12', 7),
-(13, 'El código Da Vinci', 'Autor 13', 'Misterio', 'Editorial 13', '13va', '1122334455', 2009, 'Español', 'disponible', 'Prólogo del libro 13', 'Autor del prólogo 13', 5),
-(14, 'Sherlock Holmes', 'Autor 14', 'Misterio', 'Editorial 14', '14va', '2233445566', 2008, 'Español', 'disponible', 'Prólogo del libro 14', 'Autor del prólogo 14', 3),
-(15, 'La chica del tren', 'Autor 15', 'Misterio', 'Editorial 15', '15va', '3344556677', 2007, 'Español', 'disponible', 'Prólogo del libro 15', 'Autor del prólogo 15', 4),
-(16, 'Steve Jobs', 'Autor 16', 'Biografía', 'Editorial 16', '16va', '4455667788', 2006, 'Español', 'disponible', 'Prólogo del libro 16', 'Autor del prólogo 16', 2),
-(17, 'El diario de Ana Frank', 'Autor 17', 'Biografía', 'Editorial 17', '17va', '5566778899', 2005, 'Español', 'disponible', 'Prólogo del libro 17', 'Autor del prólogo 17', 6),
-(18, 'Long Walk to Freedom', 'Autor 18', 'Biografía', 'Editorial 18', '18va', '6677889900', 2004, 'Español', 'disponible', 'Prólogo del libro 18', 'Autor del prólogo 18', 7);
-
--- Add contrasena column to usuarios table
-ALTER TABLE `usuarios`
-  ADD `contrasena` varchar(255) NOT NULL AFTER `correo`;
-
--- Insert a new user into `usuarios` table
-INSERT INTO `usuarios` (`usuario_id`, `nombre`, `apellidos`, `fecha_nacimiento`, `telefono`, `direccion`, `identificacion`, `comprobante_domicilio`, `fecha_registro`, `correo`, `contrasena`, `estatus`, `registro_caducado`) VALUES
-(1, 'Juan', 'Aguilera', '1990-01-01', '1234567890', 'Calle Falsa 123', 'ABC123456', 'comprobante.jpg', '2024-01-01', 'juan@example.com', 'password123', 'Registrado', 0);
+CREATE TABLE `eventos` (
+  `evento_id` int(11) NOT NULL AUTO_INCREMENT,
+  `usuario_id` int(11) DEFAULT NULL,
+  `nombre_evento` varchar(100) DEFAULT NULL,
+  `descripcion` text,
+  `cantidad_asistentes` int(11) DEFAULT NULL,
+  `fecha_evento` date DEFAULT NULL,
+  `hora_inicio` time DEFAULT NULL,
+  `hora_fin` time DEFAULT NULL,
+  `aprobado` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`evento_id`),
+  KEY `usuario_id` (`usuario_id`),
+  CONSTRAINT `eventos_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`usuario_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 COMMIT;
 
+INSERT INTO `libros` (`titulo`, `autor`, `genero`, `editorial`, `edicion`, `ISBN`, `ano_publicacion`, `idioma`, `estado`, `prologo`, `autor_prologo`, `cantidad`) VALUES
+('The Great Gatsby', 'F. Scott Fitzgerald', 'Fiction', 'Scribner', '1st', '9780743273565', 1925, 'English', 'disponible', 'A story about the Jazz Age', 'None', 5),
+('To Kill a Mockingbird', 'Harper Lee', 'Fiction', 'J.B. Lippincott & Co.', '1st', '9780061120084', 1960, 'English', 'disponible', 'A novel about racial injustice', 'None', 3),
+('1984', 'George Orwell', 'Dystopian', 'Secker & Warburg', '1st', '9780451524935', 1949, 'English', 'disponible', 'A story about totalitarianism', 'None', 4),
+('Pride and Prejudice', 'Jane Austen', 'Romance', 'T. Egerton', '1st', '9781503290563', 1813, 'English', 'disponible', 'A classic novel about manners', 'None', 2),
+('Moby Dick', 'Herman Melville', 'Adventure', 'Harper & Brothers', '1st', '9781503280786', 1851, 'English', 'disponible', 'A story about a giant whale', 'None', 3),
+('War and Peace', 'Leo Tolstoy', 'Historical', 'The Russian Messenger', '1st', '9780199232765', 1869, 'Russian', 'disponible', 'A novel about the Napoleonic Wars', 'None', 1),
+('The Catcher in the Rye', 'J.D. Salinger', 'Fiction', 'Little, Brown and Company', '1st', '9780316769488', 1951, 'English', 'disponible', 'A story about teenage rebellion', 'None', 4),
+('The Hobbit', 'J.R.R. Tolkien', 'Fantasy', 'George Allen & Unwin', '1st', '9780547928227', 1937, 'English', 'disponible', 'A fantasy novel about a hobbit', 'None', 5),
+('Fahrenheit 451', 'Ray Bradbury', 'Dystopian', 'Ballantine Books', '1st', '9781451673319', 1953, 'English', 'disponible', 'A novel about book burning', 'None', 3),
+('Jane Eyre', 'Charlotte Brontë', 'Romance', 'Smith, Elder & Co.', '1st', '9780141441146', 1847, 'English', 'disponible', 'A novel about an orphaned girl', 'None', 2),
+('Brave New World', 'Aldous Huxley', 'Dystopian', 'Chatto & Windus', '1st', '9780060850524', 1932, 'English', 'disponible', 'A novel about a dystopian future', 'None', 4),
+('The Odyssey', 'Homer', 'Epic', 'Ancient Greece', '1st', '9780140268867', -800, 'Greek', 'disponible', 'An epic poem about Odysseus', 'None', 1),
+('Crime and Punishment', 'Fyodor Dostoevsky', 'Psychological', 'The Russian Messenger', '1st', '9780140449136', 1866, 'Russian', 'disponible', 'A novel about crime and guilt', 'None', 2),
+('The Brothers Karamazov', 'Fyodor Dostoevsky', 'Philosophical', 'The Russian Messenger', '1st', '9780374528379', 1880, 'Russian', 'disponible', 'A novel about faith and doubt', 'None', 1),
+('Wuthering Heights', 'Emily Brontë', 'Gothic', 'Thomas Cautley Newby', '1st', '9780141439556', 1847, 'English', 'disponible', 'A novel about love and revenge', 'None', 3),
+('Great Expectations', 'Charles Dickens', 'Fiction', 'Chapman & Hall', '1st', '9780141439563', 1861, 'English', 'disponible', 'A novel about a young orphan', 'None', 4),
+('The Divine Comedy', 'Dante Alighieri', 'Epic', 'Italy', '1st', '9780140448955', 1320, 'Italian', 'disponible', 'An epic poem about the afterlife', 'None', 1),
+('Les Misérables', 'Victor Hugo', 'Historical', 'A. Lacroix, Verboeckhoven & Cie', '1st', '9780451419439', 1862, 'French', 'disponible', 'A novel about justice and redemption', 'None', 2),
+('Anna Karenina', 'Leo Tolstoy', 'Romance', 'The Russian Messenger', '1st', '9780143035008', 1877, 'Russian', 'disponible', 'A novel about love and betrayal', 'None', 1),
+('The Iliad', 'Homer', 'Epic', 'Ancient Greece', '1st', '9780140275360', -750, 'Greek', 'disponible', 'An epic poem about the Trojan War', 'None', 1),
+('Don Quixote', 'Miguel de Cervantes', 'Adventure', 'Francisco de Robles', '1st', '9780060934347', 1605, 'Spanish', 'disponible', 'A novel about a delusional knight', 'None', 2),
+('The Count of Monte Cristo', 'Alexandre Dumas', 'Adventure', 'Penguin Classics', '1st', '9780140449266', 1844, 'French', 'disponible', 'A novel about revenge', 'None', 3),
+('Madame Bovary', 'Gustave Flaubert', 'Fiction', 'Revue de Paris', '1st', '9780140449129', 1857, 'French', 'disponible', 'A novel about a doctor\'s wife', 'None', 2);
+
+INSERT INTO `usuarios` (`nombre`, `apellidos`, `fecha_nacimiento`, `telefono`, `direccion`, `identificacion`, `comprobante_domicilio`, `fecha_registro`, `correo`, `estatus`, `registro_caducado`, `contrasena`, `tipo_usuario`) VALUES
+('Admin', 'User', '1980-01-01', '1234567890', '123 Admin St', 'A123456', 'admin_comprobante.jpg', CURDATE(), 'admin@example.com', 'Registrado', 0, 'adminpassword', 'admin'),
+('Regular', 'User', '1990-01-01', '0987654321', '456 User St', 'U123456', 'user_comprobante.jpg', CURDATE(), 'user@example.com', 'Registrado', 0, 'userpassword', 'usuario');
+
+INSERT INTO `espacios` (`nombre_espacio`, `tipo_espacio`, `capacidad`, `ubicacion`, `descripcion`, `equipamiento`, `disponibilidad`) VALUES
+('Sala de Lectura', 'sala', 20, 'Primer Piso', 'Espacio tranquilo para lectura', 'Mesas, Sillas, Wi-Fi', 'disponible'),
+('Auditorio Principal', 'auditorio', 100, 'Segundo Piso', 'Auditorio para eventos y conferencias', 'Proyector, Sonido, Wi-Fi', 'disponible'),
+('Cubículo de Estudio 1', 'cubiculo', 4, 'Tercer Piso', 'Cubículo para estudio individual o en grupo pequeño', 'Mesa, Sillas, Wi-Fi', 'ocupado'),
+('Aula de Capacitación', 'aula', 30, 'Cuarto Piso', 'Aula para cursos y talleres', 'Pizarrón, Proyector, Wi-Fi', 'disponible');

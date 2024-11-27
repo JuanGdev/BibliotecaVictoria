@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Victoria - Administrador</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">Biblioteca Victoria</div>
+        <nav>
+            <ul>
+                <li><a href="index_usuario.html">Inicio</a></li>
+                <li><a href="libros.html">Libros</a></li>
+                <li><a href="espacios.html">Espacios</a></li>
+                <li><a href="carrito.html"><img src="../assets/icons/icon_personal_library.png" alt="Carrito"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+        <section class="login-section">
+            <h2 class="text-center">Agregar Libro</h2>
+            <form id="add-book-form" action="../backend/add_book.php" method="POST">
+                <div class="form-group">
+                    <label for="titulo">Título:</label>
+                    <input type="text" class="form-control" id="titulo" name="titulo" required>
+                </div>
+                <div class="form-group">
+                    <label for="autor">Autor:</label>
+                    <input type="text" class="form-control" id="autor" name="autor" required>
+                </div>
+                <div class="form-group">
+                    <label for="genero">Género:</label>
+                    <input type="text" class="form-control" id="genero" name="genero" required>
+                </div>
+                <div class="form-group">
+                    <label for="editorial">Editorial:</label>
+                    <input type="text" class="form-control" id="editorial" name="editorial" required>
+                </div>
+                <div class="form-group">
+                    <label for="edicion">Edición:</label>
+                    <input type="text" class="form-control" id="edicion" name="edicion" required>
+                </div>
+                <div class="form-group">
+                    <label for="isbn">ISBN:</label>
+                    <input type="text" class="form-control" id="isbn" name="isbn" required>
+                </div>
+                <div class="form-group">
+                    <label for="ano_publicacion">Año de Publicación:</label>
+                    <input type="number" class="form-control" id="ano_publicacion" name="ano_publicacion" required>
+                </div>
+                <div class="form-group">
+                    <label for="idioma">Idioma:</label>
+                    <input type="text" class="form-control" id="idioma" name="idioma" required>
+                </div>
+                <div class="form-group">
+                    <label for="estado">Estado:</label>
+                    <select class="form-control" id="estado" name="estado" required>
+                        <option value="disponible">Disponible</option>
+                        <option value="prestado">Prestado</option>
+                        <option value="dañado">Dañado</option>
+                        <option value="extraviado">Extraviado</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="prologo">Prólogo:</label>
+                    <textarea class="form-control" id="prologo" name="prologo" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="autor_prologo">Autor del Prólogo:</label>
+                    <input type="text" class="form-control" id="autor_prologo" name="autor_prologo" required>
+                </div>
+                <div class="form-group">
+                    <label for="cantidad">Cantidad:</label>
+                    <input type="number" class="form-control" id="cantidad" name="cantidad" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Agregar Libro</button>
+                <div id="add-book-message" class="mt-3"></div>
+            </form>
+        </section>
+    </main>
+    <footer class="text-center mt-auto py-3 bg-dark text-white">
+        <p>Hecho con 🩷📚 por <a href="https://halved-exception-51f.notion.site/juan-aguilera-portfolio" target="_blank" class="text-white">JuanGdev</a></p>
+    </footer>
+</body>
+</html>
