@@ -30,6 +30,16 @@
         <p>Hecho con 🩷📚 por <a href="https://halved-exception-51f.notion.site/juan-aguilera-portfolio"
                 target="_blank">JuanGdev</a></p>
     </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+            if (userInfo) {
+                const userInfoContainer = document.createElement('div');
+                userInfoContainer.innerHTML = `<p>Bienvenido, ${userInfo.nombre} ${userInfo.apellidos}</p>`;
+                document.body.insertBefore(userInfoContainer, document.body.firstChild);
+            }
+        });
+    </script>
     <script src="../frontend/scripts/carrito.js"></script>
 </body>
 

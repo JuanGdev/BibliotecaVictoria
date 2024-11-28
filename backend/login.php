@@ -1,14 +1,21 @@
 <?php
+session_start();
 include 'config/conexion.php';
 
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-$sql = "SELECT * FROM usuarios WHERE correo = '$email' AND contrasena = '$password'";
+$sql = "SELECT * FROM usuarios WHERE correo = '$email'";
 $result = $conexion->query($sql);
 
 if ($result->num_rows > 0) {
-    echo json_encode(['status' => 'success', 'message' => 'Login exitoso']);
+    $user = $result->fetch_assoc();
+    if ($password === $user['contrasena']) {
+        $_SESSION['user'] = $user;
+        echo json_encode(['status' => 'success', 'message' => 'Login exitoso', 'user' => $user]);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Correo o contraseña incorrectos']);
+    }
 } else {
     echo json_encode(['status' => 'error', 'message' => 'Correo o contraseña incorrectos']);
 }

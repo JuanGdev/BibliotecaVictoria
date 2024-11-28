@@ -17,6 +17,9 @@ async function fetchEspacios() {
                 <div style="padding: 10px; background-color: ${espacio.disponibilidad === 'disponible' ? 'green' : 'red'};">
                     <h3>${espacio.nombre_espacio}</h3>
                     <p>${espacio.descripcion}</p>
+                    <p><strong>Capacidad:</strong> ${espacio.capacidad} personas</p>
+                    <p><strong>Ubicación:</strong> ${espacio.ubicacion}</p>
+                    <p>Equipamiento: ${espacio.equipamiento}</p>
                     <button style="background-color: ${espacio.disponibilidad === 'disponible' ? 'green' : 'red'};" onclick="toggleReserva(${espacio.espacio_id}, '${espacio.disponibilidad}')">
                         ${espacio.disponibilidad === 'disponible' ? 'Reservar' : 'Liberar'}
                     </button>
