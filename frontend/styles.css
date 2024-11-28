@@ -64,6 +64,9 @@ header nav ul li a img {
 /* Librero styles */
 .libros-disponibles {
     padding: 20px;
+    display: flex;
+    flex-direction: column; /* Arrange items in a single column */
+    align-items: stretch; /* Stretch items to fill the container */
 }
 
 .libros-disponibles h2 {
@@ -91,10 +94,13 @@ header nav ul li a img {
     cursor: pointer;
     transition: transform 0.3s ease;
     background-color: var(--book-color); /* Use CSS variable for book color */
+    width: 100%; /* Full width */
+    margin: 10px 0; /* Vertical margin */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .libro:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 /* Define possible book colors */
@@ -204,4 +210,47 @@ footer a:hover {
 
 .login-section button:hover {
     background-color: #45a049;
+}
+
+.espacio {
+    width: 100%; /* Full width */
+    margin: 10px 0; /* Vertical margin */
+    background-color: var(--espacio-color); /* Use CSS variable for espacio color */
+    color: white;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.espacio:hover {
+    transform: scale(1.01);
+}
+
+.espacio.disponible {
+    background-color: green; /* Change to green for available */
+}
+
+.espacio.ocupado {
+    background-color: red; /* Change to red for occupied */
+}
+
+.espacio button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.espacio button:hover {
+    background-color: #45a049;
+}
+
+.espacios-disponibles {
+    display: flex;
+    flex-direction: column; /* Arrange items in a single column */
+    align-items: stretch; /* Stretch items to fill the container */
 }
