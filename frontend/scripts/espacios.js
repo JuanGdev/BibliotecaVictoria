@@ -14,7 +14,7 @@ async function fetchEspacios() {
             espacioDiv.className = `espacio ${espacio.disponibilidad}`;
             espacioDiv.setAttribute('data-id', espacio.espacio_id); // Add data-id attribute
             espacioDiv.innerHTML = `
-                <div style="padding: 10px; background-color: ${espacio.disponibilidad === 'disponible' ? '#d4edda' : '#f8d7da'};">
+                <div style="padding: 10px; background-color: ${espacio.disponibilidad === 'disponible' ? 'green' : 'red'};">
                     <h3>${espacio.nombre_espacio}</h3>
                     <p>${espacio.descripcion}</p>
                     <button style="background-color: ${espacio.disponibilidad === 'disponible' ? 'green' : 'red'};" onclick="toggleReserva(${espacio.espacio_id}, '${espacio.disponibilidad}')">
@@ -38,11 +38,13 @@ async function toggleReserva(espacioId, disponibilidad) {
         if (result.success) {
             const espacioDiv = document.querySelector(`.espacio[data-id="${espacioId}"]`);
             if (espacioDiv) {
+                const newDisponibilidad = action === 'reservar' ? 'ocupado' : 'disponible';
                 espacioDiv.classList.remove('disponible', 'ocupado'); // Remove existing classes
-                espacioDiv.classList.add(action === 'reservar' ? 'ocupado' : 'disponible'); // Add new class
-                espacioDiv.querySelector('button').innerText = action === 'reservar' ? 'Liberar' : 'Reservar'; // Update button text
-                espacioDiv.querySelector('button').style.backgroundColor = action === 'reservar' ? 'red' : 'green'; // Update button color
-                espacioDiv.querySelector('div').style.backgroundColor = action === 'reservar' ? '#f8d7da' : '#d4edda'; // Update nested div background color
+                espacioDiv.classList.add(newDisponibilidad); // Add new class
+                espacioDiv.querySelector('button').innerText = newDisponibilidad === 'disponible' ? 'Reservar' : 'Liberar'; // Update button text
+                espacioDiv.querySelector('button').style.backgroundColor = newDisponibilidad === 'disponible' ? 'green' : 'red'; // Update button color
+                espacioDiv.querySelector('div').style.backgroundColor = newDisponibilidad === 'disponible' ? 'green' : 'red'; // Update nested div background color
+                espacioDiv.querySelector('button').setAttribute('onclick', `toggleReserva(${espacioId}, '${newDisponibilidad}')`); // Update onclick attribute
             }
         } else {
             alert('Error al cambiar la reserva');
