@@ -1,4 +1,5 @@
 <?php
+session_start();
 $servername = "localhost";
 $username = "root";
 $password = "root"; // Add your MySQL root password here
@@ -12,11 +13,12 @@ if ($conn->connect_error) {
 
 $action = $_GET['action'];
 $espacio_id = $_GET['espacio_id'];
+$usuario_id = $_SESSION['user']['usuario_id']; // Obtener el usuario_id de la sesión
 
 if ($action === 'reservar') {
-    $sql = "UPDATE espacios SET disponibilidad='ocupado' WHERE espacio_id=$espacio_id";
+    $sql = "INSERT INTO reservasespacios (usuario_id, espacio_id, fecha_reserva, hora_inicio, hora_fin, estatus_reserva) VALUES ($usuario_id, $espacio_id, CURDATE(), '09:00:00', '10:00:00', 'reservado')";
 } else if ($action === 'liberar') {
-    $sql = "UPDATE espacios SET disponibilidad='disponible' WHERE espacio_id=$espacio_id";
+    $sql = "DELETE FROM reservasespacios WHERE usuario_id = $usuario_id AND espacio_id = $espacio_id";
 }
 
 $response = array();
