@@ -14,10 +14,10 @@ async function fetchEspacios() {
             espacioDiv.className = `espacio ${espacio.disponibilidad}`;
             espacioDiv.setAttribute('data-id', espacio.espacio_id); // Add data-id attribute
             espacioDiv.innerHTML = `
-                <div style="padding: 10px; background-color: ${espacio.disponibilidad === 'disponible' ? 'green' : 'red'};">
+                <div style="padding: 10px; background-color: ${espacio.disponibilidad === 'disponible' ? '#d4edda' : '#f8d7da'};">
                     <h3>${espacio.nombre_espacio}</h3>
                     <p>${espacio.descripcion}</p>
-                    <button onclick="toggleReserva(${espacio.espacio_id}, '${espacio.disponibilidad}')">
+                    <button style="background-color: ${espacio.disponibilidad === 'disponible' ? 'green' : 'red'};" onclick="toggleReserva(${espacio.espacio_id}, '${espacio.disponibilidad}')">
                         ${espacio.disponibilidad === 'disponible' ? 'Reservar' : 'Liberar'}
                     </button>
                 </div>
@@ -41,6 +41,8 @@ async function toggleReserva(espacioId, disponibilidad) {
                 espacioDiv.classList.remove('disponible', 'ocupado'); // Remove existing classes
                 espacioDiv.classList.add(action === 'reservar' ? 'ocupado' : 'disponible'); // Add new class
                 espacioDiv.querySelector('button').innerText = action === 'reservar' ? 'Liberar' : 'Reservar'; // Update button text
+                espacioDiv.querySelector('button').style.backgroundColor = action === 'reservar' ? 'red' : 'green'; // Update button color
+                espacioDiv.querySelector('div').style.backgroundColor = action === 'reservar' ? '#f8d7da' : '#d4edda'; // Update nested div background color
             }
         } else {
             alert('Error al cambiar la reserva');
