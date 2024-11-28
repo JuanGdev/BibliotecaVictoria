@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     fetchUsers();
+    fetchBooks();
 
     document.getElementById('user-form').addEventListener('submit', function(event) {
         event.preventDefault();
@@ -19,6 +20,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 $('#userModal').modal('hide');
             } else {
                 alert(data.message);
+            }
+        });
+    });
+
+    document.getElementById('book-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        const id = document.getElementById('book-id').value;
+        const url = id ? `../backend/update_book.php?id=${id}` : '../backend/add_book.php';
+        fetch(url, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.status === 'success') {
+                fetchBooks();
+                document.getElementById('bookModal').classList.remove('show');
+            } else {
+                alert('Error al guardar el libro');
             }
         });
     });
@@ -46,6 +67,39 @@ function fetchUsers() {
             userTableBody.appendChild(row);
         });
     });
+}
+
+async function fetchBooks() {
+    try {
+        const response = await fetch('../backend/get_books.php');
+        const books = await response.json();
+        const container = document.getElementById('book-table-body');
+        container.innerHTML = '';
+
+        books.forEach(book => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${book.libro_id}</td>
+                <td>${book.titulo}</td>
+                <td>${book.autor}</td>
+                <td>${book.genero}</td>
+                <td>${book.editorial}</td>
+                <td>${book.edicion}</td>
+                <td>${book.ISBN}</td>
+                <td>${book.ano_publicacion}</td>
+                <td>${book.idioma}</td>
+                <td>${book.estado}</td>
+                <td>${book.cantidad}</td>
+                <td>
+                    <button class="btn btn-warning btn-sm" onclick="showEditBookModal(${book.libro_id})">Editar</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteBook(${book.libro_id})">Eliminar</button>
+                </td>
+            `;
+            container.appendChild(row);
+        });
+    } catch (error) {
+        console.error('Error fetching books:', error);
+    }
 }
 
 function showAddUserModal() {
@@ -78,6 +132,33 @@ function showEditUserModal(userId) {
     });
 }
 
+function showAddBookModal() {
+    document.getElementById('book-form').reset();
+    document.getElementById('book-id').value = '';
+    document.getElementById('bookModalTitle').innerText = 'Agregar Libro';
+    document.getElementById('bookModal').classList.add('show');
+}
+
+function showEditBookModal(id) {
+    fetch(`../backend/get_book.php?id=${id}`)
+    .then(response => response.json())
+    .then(book => {
+        document.getElementById('book-id').value = book.libro_id;
+        document.getElementById('titulo').value = book.titulo;
+        document.getElementById('autor').value = book.autor;
+        document.getElementById('genero').value = book.genero;
+        document.getElementById('editorial').value = book.editorial;
+        document.getElementById('edicion').value = book.edicion;
+        document.getElementById('isbn').value = book.ISBN;
+        document.getElementById('ano_publicacion').value = book.ano_publicacion;
+        document.getElementById('idioma').value = book.idioma;
+        document.getElementById('estado').value = book.estado;
+        document.getElementById('cantidad').value = book.cantidad;
+        document.getElementById('bookModalTitle').innerText = 'Editar Libro';
+        document.getElementById('bookModal').classList.add('show');
+    });
+}
+
 function deleteUser(userId) {
     fetch(`../backend/delete_user.php?id=${userId}`, {
         method: 'DELETE'
@@ -90,4 +171,18 @@ function deleteUser(userId) {
             alert(data.message);
         }
     });
+}
+
+function deleteBook(id) {
+    if (confirm('¿Estás seguro de que deseas eliminar este libro?')) {
+        fetch(`../backend/delete_book.php?id=${id}`)
+        .then(response => response.json())
+        .then(result => {
+            if (result.status === 'success') {
+                fetchBooks();
+            } else {
+                alert('Error al eliminar el libro');
+            }
+        });
+    }
 }
