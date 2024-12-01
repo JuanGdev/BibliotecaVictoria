@@ -36,6 +36,7 @@
         </main>
         <aside class="book-info-panel">
             <h3>Información del Libro</h3>
+            <input type="hidden" id="libro-id" value="1"> <!-- Add this line to store the libro_id -->
             <p><strong>Sinopsis:</strong> <span id="sinopsis"></span></p>
             <p><strong>Autor:</strong> <span id="autor"></span></p>
             <p><strong>Editorial:</strong> <span id="editorial"></span></p>
@@ -55,15 +56,29 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         document.getElementById('reservar-btn').addEventListener('click', function() {
-            let libro_id = document.querySelector('.book-info-panel').getAttribute('data-book-id');
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            if (!cart.includes(libro_id)) {
-                cart.push(libro_id);
-                localStorage.setItem('cart', JSON.stringify(cart));
-                alert('Libro agregado al carrito.');
-            } else {
-                alert('El libro ya está en el carrito.');
-            }
+            const libroId = document.getElementById('libro-id').value; // Update this line to use the libro_id
+            console.log('libroId:', libroId); // Add this line to log the libroId
+            fetch('../backend/create_loan.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ libro_id: libroId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('Préstamo creado exitosamente.');
+                } else {
+                    alert('Error al crear el préstamo: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                fetch('../backend/create_loan.php')
+                    .then(response => response.text())
+                    .then(text => console.error('Response text:', text));
+            });
         });
     </script>
 </body>
