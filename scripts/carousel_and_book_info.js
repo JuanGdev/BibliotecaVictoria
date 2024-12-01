@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Carousel functionality
     const slides = document.querySelectorAll('.carrusel .slide');
     let currentIndex = 0;
 
@@ -13,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
         showSlide(currentIndex);
     }
 
-    // Move carousel automatically
     setInterval(nextSlide, 3000);
 
     // Add click event to move carousel manually
@@ -74,32 +74,18 @@ document.addEventListener('DOMContentLoaded', () => {
             // Handle book click event
             const books = document.querySelectorAll('.libro');
             const bookInfoPanel = document.querySelector('.book-info-panel');
-            const sinopsis = document.getElementById('sinopsis');
-            const autor = document.getElementById('autor');
-            const editorial = document.getElementById('editorial');
-            const anio = document.getElementById('anio');
-            const edicion = document.getElementById('edicion');
-            const isbn = document.getElementById('isbn');
-
             books.forEach(book => {
-                book.addEventListener('click', (event) => {
+                book.addEventListener('click', () => {
                     const info = JSON.parse(book.getAttribute('data-info'));
-                    sinopsis.textContent = info.sinopsis;
-                    autor.textContent = info.autor;
-                    editorial.textContent = info.editorial;
-                    anio.textContent = info.ano_publicacion;
-                    edicion.textContent = info.edicion;
-                    isbn.textContent = info.ISBN;
+                    document.getElementById('libro_id').textContent = info.libro_id;
+                    document.getElementById('sinopsis').textContent = info.sinopsis;
+                    document.getElementById('autor').textContent = info.autor;
+                    document.getElementById('editorial').textContent = info.editorial;
+                    document.getElementById('anio').textContent = info.ano_publicacion;
+                    document.getElementById('edicion').textContent = info.edicion;
+                    document.getElementById('isbn').textContent = info.ISBN;
                     bookInfoPanel.classList.add('open');
-                    event.stopPropagation(); // Prevent click event from propagating to document
                 });
-            });
-
-            // Close panel when clicking outside
-            document.addEventListener('click', (event) => {
-                if (!bookInfoPanel.contains(event.target)) {
-                    bookInfoPanel.classList.remove('open');
-                }
             });
         });
 

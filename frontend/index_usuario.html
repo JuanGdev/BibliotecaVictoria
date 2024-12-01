@@ -18,65 +18,44 @@
             </ul>
         </nav>
     </header>
-    <div class="carrusel">
-        <!-- Carrusel de imágenes o texto -->
-        <div class="slide"><img src="../assets/carrousel_1.jpg" alt="Imagen 1"></div>
-        <div class="slide"><img src="../assets/carrousel_2.jpg" alt="Imagen 2"></div>
-        <div class="slide"><img src="../assets/carrousel_3.jpg" alt="Imagen 3"></div>
-    </div>
     <div class="content">
         <main>
+            <div class="carrusel">
+                <div class="slide">
+                    <img src="../assets/carrousel_1.jpg" alt="Slide 1">
+                </div>
+                <div class="slide">
+                    <img src="../assets/carrousel_2.jpg" alt="Slide 2">
+                </div>
+                <div class="slide">
+                    <img src="../assets/carrousel_3.jpg" alt="Slide 3">
+                </div>
+            </div>
+            
             <section class="libros-disponibles">
                 <h2>Libros Disponibles</h2>
                 <div id="librero-container"></div>
             </section>
+
+            <aside class="book-info-panel">
+                <h3>Información del Libro</h3>
+                <p><strong>ID del Libro:</strong> <span id="libro_id"></span></p>
+                <p><strong>Sinopsis:</strong> <span id="sinopsis"></span></p>
+                <p><strong>Autor:</strong> <span id="autor"></span></p>
+                <p><strong>Editorial:</strong> <span id="editorial"></span></p>
+                <p><strong>Año:</strong> <span id="anio"></span></p>
+                <p><strong>Edición:</strong> <span id="edicion"></span></p>
+                <p><strong>ISBN:</strong> <span id="isbn"></span></p>
+            </aside>
         </main>
-        <aside class="book-info-panel">
-            <h3>Información del Libro</h3>
-            <input type="hidden" id="libro-id" value="1"> <!-- Add this line to store the libro_id -->
-            <p><strong>Sinopsis:</strong> <span id="sinopsis"></span></p>
-            <p><strong>Autor:</strong> <span id="autor"></span></p>
-            <p><strong>Editorial:</strong> <span id="editorial"></span></p>
-            <p><strong>Año de Publicación:</strong> <span id="anio"></span></p>
-            <p><strong>Edición:</strong> <span id="edicion"></span></p>
-            <p><strong>ISBN:</strong> <span id="isbn"></span></p>
-            <button type="button" class="btn btn-primary" id="reservar-btn">Reservar</button>
-        </aside>
         <footer>
             <p>Hecho con 🩷📚 por <a href="https://halved-exception-51f.notion.site/juan-aguilera-portfolio"
                     target="_blank">JuanGdev</a></p>
         </footer>
     </div>
-    <script src="../scripts/carousel_and_book_info.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        document.getElementById('reservar-btn').addEventListener('click', function() {
-            const libroId = document.getElementById('libro-id').value; // Update this line to use the libro_id
-            console.log('libroId:', libroId); // Add this line to log the libroId
-            fetch('../backend/create_loan.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ libro_id: libroId })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    alert('Préstamo creado exitosamente.');
-                } else {
-                    alert('Error al crear el préstamo: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                fetch('../backend/create_loan.php')
-                    .then(response => response.text())
-                    .then(text => console.error('Response text:', text));
-            });
-        });
-    </script>
+    <script src="../scripts/carousel_and_book_info.js"></script>
 </body>
 </html>
