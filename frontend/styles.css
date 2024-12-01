@@ -61,6 +61,18 @@ header nav ul li a img {
     transition: transform 0.5s ease-in-out;
 }
 
+.carousel-container {
+  max-width: 100px; /* Adjust the width as needed */
+  margin: 0 auto; /* Center the carousel horizontally */
+  padding: 20px; /* Optional: Add some padding around the carousel */
+  padding-top: 20px;
+}
+
+.carousel-inner img {
+  width: 50%; /* Ensure the images fit within the carousel */
+  height: auto; /* Maintain aspect ratio */
+}
+
 /* Librero styles */
 .libros-disponibles {
     padding: 20px;
