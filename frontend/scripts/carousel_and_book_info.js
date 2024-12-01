@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function() {
     fetchUsers();
     fetchBooks();
@@ -44,6 +43,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    let selectedLibroId = null;
 });
 
 function fetchUsers() {
@@ -97,6 +98,12 @@ async function fetchBooks() {
                 </td>
             `;
             container.appendChild(row);
+
+            row.addEventListener('click', function() {
+                const libro_id = this.getAttribute('data-libro-id');
+                selectedLibroId = libro_id;
+                loadBookInfo(libro_id);
+            });
         });
     } catch (error) {
         console.error('Error fetching books:', error);
@@ -195,3 +202,21 @@ function showBookInfo(book) {
     // ...existing code...
 }
 // ...existing code...
+
+// Modificar el evento del botón Reservar
+document.getElementById('reserveButton').addEventListener('click', function() {
+    if (selectedLibroId) {
+        // Obtener el carrito del localStorage
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        // Añadir el libro si no está ya en el carrito
+        if (!cart.includes(selectedLibroId)) {
+            cart.push(selectedLibroId);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert('El libro ha sido añadido al carrito.');
+        } else {
+            alert('El libro ya está en el carrito.');
+        }
+    } else {
+        alert('Por favor, seleccione un libro primero.');
+    }
+});

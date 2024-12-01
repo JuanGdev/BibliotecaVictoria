@@ -1,20 +1,27 @@
 <?php
-include 'config.php';
+include 'config/conexion.php';
 
-$libro_id = $_GET['libro_id'];
-$sql = "SELECT titulo, autor, editorial, ano_publicacion, edicion, ISBN, sinopsis, cantidad FROM libros WHERE libro_id = ?";
-$stmt = $conexion->prepare($sql);
-$stmt->bind_param("i", $libro_id);
-$stmt->execute();
-$result = $stmt->get_result();
+header('Content-Type: application/json');
 
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    echo json_encode($row);
+if (isset($_GET['libro_id'])) {
+    $libro_id = $_GET['libro_id'];
+
+    $sql = "SELECT libro_id, titulo, autor FROM libros WHERE libro_id = ?";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("i", $libro_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $book = $result->fetch_assoc();
+        echo json_encode($book);
+    } else {
+        echo json_encode(["status" => "error", "message" => "El libro no existe."]);
+    }
+
+    $stmt->close();
 } else {
-    echo json_encode([]);
+    echo json_encode(["status" => "error", "message" => "No se proporcionó el ID del libro."]);
 }
-
-$stmt->close();
 $conexion->close();
 ?>
