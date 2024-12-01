@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca Victoria - Administrador</title>
-    <link rel="stylesheet" href="../frontend/styles.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../frontend/styles.css">
 </head>
 
 <body>
@@ -15,11 +15,10 @@
         <nav>
             <ul>
                 <li><a href="espacios.html">Espacios</a></li>
-                <li><a href="prestamosAdmin.html"><img src="../assets/icons/icon_personal_library.png" alt="Carrito"></a></li>
             </ul>
         </nav>
     </header>
-    <main class="container" style="min-height: 80vh;">
+    <main class="container" style="flex: 1;">
         <section class="admin-section mb-5">
             <h2 class="text-center">Administración de Usuarios</h2>
             <div class="table-responsive">
@@ -273,8 +272,8 @@
                             <td>${loan.fecha_limite}</td>
                             <td>${loan.estado}</td>
                             <td>
-                                <button class="btn btn-warning btn-sm" onclick="deleteLoan(${loan.id})">Eliminar</button>
-                                <button class="btn btn-info btn-sm" onclick="showEditLoanModal(${loan.id})">Editar</button>
+                                <button class="btn btn-edit btn-sm" onclick="showEditLoanModal(${loan.id})">Editar</button>
+                                <button class="btn btn-delete btn-sm" onclick="deleteLoan(${loan.id})">Eliminar</button>
                             </td>
                         `;
                         loanHistoryTableBody.appendChild(row);

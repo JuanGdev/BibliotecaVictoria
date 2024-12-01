@@ -150,7 +150,8 @@ footer {
     justify-content: center;
     align-items: center;
     position: relative; /* Change to relative */
-    bottom: 0;
+    bottom: 0; /* Ensure it's at the bottom */
+    margin-top: auto; /* Add this line */
 }
 
 footer a {
@@ -408,4 +409,28 @@ footer a:hover {
 
 .call-to-action button:hover {
     background-color: #45a049;
+}
+
+.btn-edit {
+    background-color: #007bff; /* Blue color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-edit:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.btn-delete {
+    background-color: #dc3545; /* Red color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-delete:hover {
+    background-color: #c82333; /* Darker red on hover */
 }
