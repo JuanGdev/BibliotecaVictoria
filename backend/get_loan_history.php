@@ -3,7 +3,11 @@ include 'config/conexion.php';
 
 header('Content-Type: application/json');
 
-$sql = "SELECT prestamo_id AS id, usuario_id AS usuario, libro_id AS libro, fecha_prestamo, fecha_devolucion, fecha_limite, estado_prestamo AS estado FROM historialprestamos";
+$sql = "SELECT historialprestamos.prestamo_id AS id, historialprestamos.usuario_id AS usuario, 
+        CONCAT(libros.titulo, ' - ', libros.autor) AS libro, historialprestamos.fecha_prestamo, 
+        historialprestamos.fecha_devolucion, historialprestamos.fecha_limite, historialprestamos.estado_prestamo AS estado 
+        FROM historialprestamos 
+        JOIN libros ON historialprestamos.libro_id = libros.libro_id";
 $result = $conexion->query($sql);
 
 $loanHistory = [];
