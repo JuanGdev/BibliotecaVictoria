@@ -42,7 +42,7 @@
             <p><strong>Año de Publicación:</strong> <span id="anio"></span></p>
             <p><strong>Edición:</strong> <span id="edicion"></span></p>
             <p><strong>ISBN:</strong> <span id="isbn"></span></p>
-            <button type="button" class="btn btn-primary">Reservar</button>
+            <button type="button" class="btn btn-primary" id="reservar-btn">Reservar</button>
         </aside>
         <footer>
             <p>Hecho con 🩷📚 por <a href="https://halved-exception-51f.notion.site/juan-aguilera-portfolio"
@@ -53,5 +53,18 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById('reservar-btn').addEventListener('click', function() {
+            let libro_id = document.querySelector('.book-info-panel').getAttribute('data-book-id');
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            if (!cart.includes(libro_id)) {
+                cart.push(libro_id);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert('Libro agregado al carrito.');
+            } else {
+                alert('El libro ya está en el carrito.');
+            }
+        });
+    </script>
 </body>
 </html>

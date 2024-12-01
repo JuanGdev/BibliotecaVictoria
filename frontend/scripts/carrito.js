@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function() {
     loadCart();
 });
@@ -17,13 +16,15 @@ function loadCart() {
         fetch(`../backend/get_book_info.php?libro_id=${libro_id}`)
         .then(response => response.json())
         .then(book => {
-            let row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${book.titulo}</td>
-                <td>${book.autor}</td>
-                <td><button class="btn btn-danger btn-sm" onclick="removeFromCart(${libro_id})">Eliminar</button></td>
-            `;
-            cartTableBody.appendChild(row);
+            if (book) {
+                let row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${book.titulo || 'N/A'}</td>
+                    <td>${book.autor || 'N/A'}</td>
+                    <td><button class="btn btn-danger btn-sm" onclick="removeFromCart(${libro_id})">Eliminar</button></td>
+                `;
+                cartTableBody.appendChild(row);
+            }
         })
         .catch(error => console.error('Error:', error));
     });
