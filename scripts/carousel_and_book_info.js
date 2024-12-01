@@ -85,6 +85,31 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('edicion').textContent = info.edicion;
                     document.getElementById('isbn').textContent = info.ISBN;
                     bookInfoPanel.classList.add('open');
+                    
+                    // Add event listener for the loan button
+                    document.getElementById('pedir-btn').onclick = () => {
+                        fetch('../backend/create_loan.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                libro_id: info.libro_id
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                alert('Libro solicitado exitosamente');
+                            } else {
+                                alert('Error al solicitar el libro: ' + data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Error al procesar la solicitud');
+                        });
+                    };
                 });
             });
         });
