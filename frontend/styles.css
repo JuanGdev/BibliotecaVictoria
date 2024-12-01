@@ -51,7 +51,7 @@ header nav ul li a img {
     display: flex;
     overflow: hidden;
     width: 100%;
-    height: 200px;
+    height: 100%;
     margin: 20px 0;
     position: relative;
 }
@@ -62,7 +62,7 @@ header nav ul li a img {
 }
 
 .carousel-container {
-  max-width: 100px; /* Adjust the width as needed */
+  max-width: auto; /* Adjust the width as needed */
   margin: 0 auto; /* Center the carousel horizontally */
   padding: 20px; /* Optional: Add some padding around the carousel */
   padding-top: 20px;
@@ -354,4 +354,58 @@ footer a:hover {
 
 .modal.show {
     display: block;
+}
+
+.about, .services, .location {
+    padding: 40px 20px;
+    background-color: #fff;
+    margin: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.about h2, .services h2, .location h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.about p, .services p, .location p {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.services .service-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.services .service-item img {
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+}
+
+.location iframe {
+    width: 100%;
+    height: 300px;
+    border: 0;
+}
+
+.call-to-action {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.call-to-action button {
+    padding: 15px 30px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.call-to-action button:hover {
+    background-color: #45a049;
 }
