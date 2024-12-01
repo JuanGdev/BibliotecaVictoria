@@ -46,7 +46,7 @@ CREATE TABLE `historialprestamos` (
   `fecha_prestamo` date DEFAULT NULL,
   `fecha_devolucion` date DEFAULT NULL,
   `fecha_limite` date DEFAULT NULL,
-  `estado_prestamo` enum('pendiente', 'prestado', 'devuelto', 'extraviado') DEFAULT 'pendiente',
+  `estado_prestamo` enum('pendiente', 'prestado', 'devuelto', 'rechazado','extraviado') DEFAULT 'pendiente',
   PRIMARY KEY (`prestamo_id`),
   KEY `usuario_id` (`usuario_id`),
   KEY `libro_id` (`libro_id`),
