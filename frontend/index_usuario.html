@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca Victoria - Usuario</title>
     <link rel="stylesheet" href="../frontend/styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -40,12 +41,85 @@
             <p><strong>Año de Publicación:</strong> <span id="anio"></span></p>
             <p><strong>Edición:</strong> <span id="edicion"></span></p>
             <p><strong>ISBN:</strong> <span id="isbn"></span></p>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reserveModal">Reservar</button>
         </aside>
+        <!-- Modal -->
+        <div class="modal fade" id="reserveModal" tabindex="-1" role="dialog" aria-labelledby="reserveModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="reserveModalLabel">Reservar Libro</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="reserveForm">
+                            <input type="hidden" id="libro_id" name="libro_id">
+                            <div class="form-group">
+                                <label for="fecha_limite">Fecha Límite</label>
+                                <input type="date" class="form-control" id="fecha_limite" name="fecha_limite" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Reservar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         <footer>
             <p>Hecho con 🩷📚 por <a href="https://halved-exception-51f.notion.site/juan-aguilera-portfolio"
                     target="_blank">JuanGdev</a></p>
         </footer>
     </div>
     <script src="../scripts/carousel_and_book_info.js"></script>
+    <script>
+        document.getElementById('reserveForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var libro_id = document.getElementById('isbn').innerText;
+            var fecha_limite = document.getElementById('fecha_limite').value;
+            var formData = new FormData();
+            formData.append('libro_id', libro_id);
+            formData.append('fecha_limite', fecha_limite);
+
+            fetch('../backend/reserve_book.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                if (data.status === "success") {
+                    $('#reserveModal').modal('hide');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var correo = document.getElementById('correo').value;
+            var contrasena = document.getElementById('contrasena').value;
+            var formData = new FormData();
+            formData.append('correo', correo);
+            formData.append('contrasena', contrasena);
+
+            fetch('../backend/login.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    window.location.href = "index_usuario.html";
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -2,23 +2,28 @@
 session_start();
 include 'config/conexion.php';
 
-$email = $_POST['email'];
-$password = $_POST['password'];
+header('Content-Type: application/json');
 
-$sql = "SELECT * FROM usuarios WHERE correo = '$email'";
-$result = $conexion->query($sql);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $correo = $_POST['correo'];
+    $contrasena = $_POST['contrasena'];
 
-if ($result->num_rows > 0) {
-    $user = $result->fetch_assoc();
-    if ($password === $user['contrasena']) {
-        $_SESSION['user'] = $user;
-        echo json_encode(['status' => 'success', 'message' => 'Login exitoso', 'user' => $user, 'user_type' => $user['tipo_usuario']]);
+    $sql = "SELECT usuario_id, contrasena FROM usuarios WHERE correo = ?";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("s", $correo);
+    $stmt->execute();
+    $stmt->store_result();
+    $stmt->bind_result($usuario_id, $hashed_password);
+    $stmt->fetch();
+
+    if ($stmt->num_rows > 0 && password_verify($contrasena, $hashed_password)) {
+        $_SESSION['usuario_id'] = $usuario_id;
+        echo json_encode(["status" => "success", "message" => "Login successful"]);
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'Correo o contraseña incorrectos']);
+        echo json_encode(["status" => "error", "message" => "Correo o contraseña incorrectos."]);
     }
-} else {
-    echo json_encode(['status' => 'error', 'message' => 'Correo o contraseña incorrectos']);
-}
 
+    $stmt->close();
+}
 $conexion->close();
 ?>
