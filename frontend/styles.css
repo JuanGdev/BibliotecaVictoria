@@ -502,3 +502,17 @@ footer a:hover {
     color: white;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 }
+
+.welcome-message {
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+    background-color: #f8f9fa00;
+    border-radius: 8px;
+}
+
+.welcome-message h1 {
+    color: #ffffff;
+    font-size: 4rem;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgb(0, 0, 0);
+}
