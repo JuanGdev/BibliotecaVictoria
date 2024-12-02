@@ -14,6 +14,7 @@ body {
     background-color: #f4f4f4;
     display: flex;
     flex-direction: column;
+    color: #ffffff; /* Texto blanco */
 }
 
 header {
@@ -196,8 +197,9 @@ footer a:hover {
     top: 0;
     width: 300px;
     height: 100%;
-    background-color: #000000;
-    border-left: 1px solid #ccc;
+    background-color: #333;
+    border-top: 1px solid #FF4081;
+    border-left: 1px solid #FF4081;
     padding: 20px;
     box-shadow: -2px 0 5px rgba(0,0,0,0.1);
     overflow-y: auto;
@@ -244,6 +246,7 @@ footer a:hover {
 .login-section label {
     margin-bottom: 5px;
     font-weight: bold;
+    color: #ffffff; /* Texto blanco para las etiquetas de formulario */
 }
 
 .login-section input {
@@ -251,6 +254,8 @@ footer a:hover {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    color: #ffffff; /* Texto blanco para los inputs */
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo semi-transparente para los inputs */
 }
 
 .login-section button {
@@ -510,9 +515,36 @@ footer a:hover {
     border-radius: 8px;
 }
 
+
 .welcome-message h1 {
     color: #ffffff;
     font-size: 4rem;
     font-weight: 600;
     text-shadow: 1px 1px 2px rgb(0, 0, 0);
+}
+
+.container {
+    color: #ffffff; /* Texto blanco dentro de containers */
+}
+
+label {
+    color: #ffffff; /* Texto blanco para las etiquetas de formulario */
+}
+
+.form-control {
+    color: #ffffff; /* Texto blanco para los inputs */
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo semi-transparente para los inputs */
+}
+
+.form-control:focus {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+a {
+    color: #ffffff; /* Enlaces en blanco */
+}
+
+a:hover {
+    color: #cccccc; /* Enlaces más oscuros al pasar el mouse */
 }
