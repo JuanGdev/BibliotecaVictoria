@@ -26,6 +26,9 @@
         </nav>
     </header>
     <main class="container mt-4">
+        <div class="user-greeting text-center mb-4">
+            <h2 id="userWelcome" class="display-4" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.7);"></h2>
+        </div>
         <div class="text-white text-center mb-5">
             <h2 class="display-4 mb-4" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">Mis Libros Solicitados</h2>
         </div>
@@ -56,6 +59,14 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Add user welcome message
+            const userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+            if (userInfo) {
+                document.getElementById('userWelcome').textContent = 
+                    `Bienvenidx, ${userInfo.nombre} ${userInfo.apellidos} !`;
+            }
+            
+            // Existing fetch and table population code
             fetch('../backend/get_user_loans.php')
                 .then(response => response.json())
                 .then(data => {

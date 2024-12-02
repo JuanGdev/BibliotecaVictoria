@@ -24,6 +24,9 @@
             <div class="welcome-message">
                 <h1 class="text-center mb-4">¡Déjate llevar por la magia de los libros!</h1>
             </div>
+            <div class="user-greeting text-center mb-4">
+                <h2 id="userWelcome" class="display-4" style="text-shadow: 2px 2px 4px rgba(145, 145, 145, 0.7);"></h2>
+            </div>
             <section class="libros-disponibles">
                 <h2>Libros Disponibles</h2>
                 <div id="librero-container"></div>
@@ -51,5 +54,15 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="../scripts/bookCoverAPI.js"></script>
     <script src="../scripts/book_info.js"></script>
+    <script>
+        // Add this script to display user's name
+        document.addEventListener('DOMContentLoaded', function() {
+            const userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+            if (userInfo) {
+                document.getElementById('userWelcome').textContent = 
+                    `Bienvenidx, ${userInfo.nombre} ${userInfo.apellidos}!`;
+            }
+        });
+    </script>
 </body>
 </html>
