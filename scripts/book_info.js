@@ -85,3 +85,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return colors[Math.floor(Math.random() * colors.length)];
     }
 });
+
+document.addEventListener('click', function(event) {
+    const bookInfoPanel = document.querySelector('.book-info-panel');
+    const isClickInside = bookInfoPanel.contains(event.target);
+    const isBookClick = event.target.closest('.libro');
+    
+    // Only close if click is outside panel and not on a book
+    if (!isClickInside && !isBookClick && bookInfoPanel.classList.contains('open')) {
+        bookInfoPanel.classList.remove('open');
+    }
+});
