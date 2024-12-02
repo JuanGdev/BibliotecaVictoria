@@ -17,13 +17,54 @@ document.addEventListener('DOMContentLoaded', () => {
                 const librero = document.createElement('div');
                 librero.classList.add('librero');
 
-                genres[genre].forEach(book => {
+                // Create all books for this genre first
+                const bookPromises = genres[genre].map(async book => {
                     const libro = document.createElement('div');
                     libro.classList.add('libro');
                     libro.style.setProperty('--book-color', getRandomColor());
-                    libro.textContent = book.titulo;
+                    
+                    const coverContainer = document.createElement('div');
+                    coverContainer.classList.add('book-cover-container');
+                    
+                    const coverUrl = await getBookCover(book.ISBN);
+                    if (coverUrl) {
+                        const coverImg = document.createElement('img');
+                        coverImg.src = coverUrl;
+                        coverImg.alt = book.titulo;
+                        coverImg.classList.add('book-cover');
+                        coverContainer.appendChild(coverImg);
+                    }
+
+                    const titleDiv = document.createElement('div');
+                    titleDiv.textContent = book.titulo;
+                    titleDiv.classList.add('book-title');
+                    coverContainer.appendChild(titleDiv);
+
+                    libro.appendChild(coverContainer);
                     libro.setAttribute('data-info', JSON.stringify(book));
-                    librero.appendChild(libro);
+
+                    // Add click event listener for each book
+                    libro.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const info = JSON.parse(libro.getAttribute('data-info'));
+                        const bookInfoPanel = document.querySelector('.book-info-panel');
+                        
+                        document.getElementById('libro_id').textContent = info.libro_id;
+                        document.getElementById('sinopsis').textContent = info.sinopsis;
+                        document.getElementById('autor').textContent = info.autor;
+                        document.getElementById('editorial').textContent = info.editorial;
+                        document.getElementById('anio').textContent = info.ano_publicacion;
+                        document.getElementById('edicion').textContent = info.edicion;
+                        document.getElementById('isbn').textContent = info.ISBN;
+                        bookInfoPanel.classList.add('open');
+                    });
+
+                    return libro;
+                });
+
+                // Wait for all books to be created
+                Promise.all(bookPromises).then(books => {
+                    books.forEach(libro => librero.appendChild(libro));
                 });
 
                 const baseMadera = document.createElement('div');
@@ -37,45 +78,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 libreroContainer.appendChild(librero);
             }
 
-            // Handle book click event
-            const books = document.querySelectorAll('.libro');
-            const bookInfoPanel = document.querySelector('.book-info-panel');
-            books.forEach(book => {
-                book.addEventListener('click', () => {
-                    const info = JSON.parse(book.getAttribute('data-info'));
-                    document.getElementById('libro_id').textContent = info.libro_id;
-                    document.getElementById('sinopsis').textContent = info.sinopsis;
-                    document.getElementById('autor').textContent = info.autor;
-                    document.getElementById('editorial').textContent = info.editorial;
-                    document.getElementById('anio').textContent = info.ano_publicacion;
-                    document.getElementById('edicion').textContent = info.edicion;
-                    document.getElementById('isbn').textContent = info.ISBN;
-                    bookInfoPanel.classList.add('open');
-                    
-                    // Add event listener for the loan button
-                    document.getElementById('pedir-btn').onclick = () => {
-                        fetch('../backend/create_loan.php', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                libro_id: info.libro_id
-                            })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.status === 'success') {
-                                alert('Libro solicitado exitosamente');
-                            } else {
-                                alert('Error al solicitar el libro: ' + data.message);
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('Error al procesar la solicitud');
-                        });
-                    };
+            // Add event listener for the loan button
+            document.getElementById('pedir-btn').addEventListener('click', function() {
+                const libro_id = document.getElementById('libro_id').textContent;
+                fetch('../backend/create_loan.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        libro_id: libro_id
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('Libro solicitado exitosamente');
+                    } else {
+                        alert('Error al solicitar el libro: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al procesar la solicitud');
                 });
             });
         });
@@ -86,6 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// Add click event listener to close panel when clicking outside
 document.addEventListener('click', function(event) {
     const bookInfoPanel = document.querySelector('.book-info-panel');
     const isClickInside = bookInfoPanel.contains(event.target);

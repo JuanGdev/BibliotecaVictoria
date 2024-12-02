@@ -1,6 +1,10 @@
 /* General styles */
 html, body {
     height: 100%;
+    background-image: url("https://images2.alphacoders.com/261/thumb-1920-26102.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 body {
@@ -82,6 +86,8 @@ header nav ul li a img {
 
 .libros-disponibles h2 {
     margin-bottom: 20px;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
 .categoria {
@@ -93,7 +99,7 @@ header nav ul li a img {
     left: 10px;
     color: #333;
     font-weight: bold;
-    background: #fff;
+    background: rgba(255, 255, 255, 0.9);
     padding: 2px 10px;
     border-radius: 3px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -104,7 +110,7 @@ header nav ul li a img {
     flex-wrap: wrap;
     gap: 5px;
     padding: 15px;
-    background: #3d3d3d;
+    background: #0f0f0f7e;
     border-radius: 5px;
     position: relative;
     margin-bottom: 60px;
@@ -142,15 +148,6 @@ header nav ul li a img {
     z-index: 1;
 }
 
-/* Define possible book colors */
-:root {
-    --book-color-1: #4CAF50;
-    --book-color-2: #FF5722;
-    --book-color-3: #2196F3;
-    --book-color-4: #FFC107;
-    --book-color-5: #9C27B0;
-}
-
 .base-madera {
     width: 100%;
     height: 30px;
@@ -163,6 +160,11 @@ header nav ul li a img {
 
 main {
     flex: 1;
+}
+
+main p {
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
 footer {
@@ -194,16 +196,30 @@ footer a:hover {
     top: 0;
     width: 300px;
     height: 100%;
-    background-color: #f4f4f4;
+    background-color: #000000;
     border-left: 1px solid #ccc;
     padding: 20px;
     box-shadow: -2px 0 5px rgba(0,0,0,0.1);
     overflow-y: auto;
     transition: right 0.3s ease; /* Smooth slide-in effect */
+    color: white;
 }
 
 .book-info-panel.open {
     right: 0; /* Slide in */
+}
+
+.book-info-panel h3 {
+    color: white;
+    margin-bottom: 20px;
+}
+
+.book-info-panel p {
+    color: white;
+}
+
+.book-info-panel strong {
+    color: #FF4081;
 }
 
 .login-section {
@@ -458,4 +474,31 @@ footer a:hover {
 
 .btn-delete:hover {
     background-color: #c82333; /* Darker red on hover */
+}
+
+.book-cover-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.book-cover {
+    max-width: 80%;
+    max-height: 70%;
+    object-fit: contain;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.book-title {
+    text-align: center;
+    font-size: 0.8em;
+    padding: 5px;
+    word-wrap: break-word;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 }
