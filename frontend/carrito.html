@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biblioteca Victoria - Librero</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Carrito - Biblioteca Victoria</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../frontend/styles.css">
 </head>
 
 <body>
@@ -13,34 +14,92 @@
         <div class="logo">Biblioteca Victoria</div>
         <nav>
             <ul>
-                <li><a href="../frontend/inicio_sesion.html">Iniciar Sesión</a></li>
-                <li><a href="libros.html">Libros</a></li>
-                <li><a href="espacios.html">Espacios</a></li>
+                <li><a href="../frontend/inicio_sesion.html">Cerrar Sesión</a></li>
+                <li><a href="index_usuario.html">Libros</a></li>
                 <li><a href="carrito.html"><img src="../assets/icons/icon_personal_library.png" alt="Carrito"></a></li>
             </ul>
         </nav>
     </header>
-    <main>
-        <section class="libros-solicitados">
-            <h2>Libros Solicitados</h2>
-            <div id="librero-container"></div>
-        </section>
+    <main class="container mt-4">
+        <h2 class="mb-4">Mis Libros Solicitados</h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Título</th>
+                        <th>Autor</th>
+                        <th>Fecha de Solicitud</th>
+                        <th>Fecha de Devolución</th>
+                        <th>Fecha Límite</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="loans-table-body">
+                    <!-- Data will be populated here -->
+                </tbody>
+            </table>
+        </div>
+        <div id="no-loans-message" class="alert alert-info d-none">
+            No tienes libros solicitados.
+        </div>
     </main>
     <footer>
         <p>Hecho con 🩷📚 por <a href="https://halved-exception-51f.notion.site/juan-aguilera-portfolio"
                 target="_blank">JuanGdev</a></p>
     </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-            if (userInfo) {
-                const userInfoContainer = document.createElement('div');
-                userInfoContainer.innerHTML = `<p>Bienvenido, ${userInfo.nombre} ${userInfo.apellidos}</p>`;
-                document.body.insertBefore(userInfoContainer, document.body.firstChild);
-            }
+            fetch('../backend/get_user_loans.php')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('loans-table-body');
+                    const noLoansMessage = document.getElementById('no-loans-message');
+
+                    if (data.status === 'error') {
+                        noLoansMessage.textContent = data.message;
+                        noLoansMessage.classList.remove('d-none');
+                        return;
+                    }
+
+                    if (data.length === 0) {
+                        noLoansMessage.classList.remove('d-none');
+                        return;
+                    }
+
+                    data.forEach(loan => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${loan.titulo}</td>
+                            <td>${loan.autor}</td>
+                            <td>${loan.fecha_prestamo || 'Pendiente'}</td>
+                            <td>${loan.fecha_devolucion || 'Pendiente'}</td>
+                            <td>${loan.fecha_limite || 'Por definir'}</td>
+                            <td><span class="badge badge-${getStatusBadgeClass(loan.estado_prestamo)}">${loan.estado_prestamo}</span></td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('no-loans-message').textContent = 'Error al cargar los datos.';
+                    document.getElementById('no-loans-message').classList.remove('d-none');
+                });
         });
+
+        function getStatusBadgeClass(status) {
+            const statusClasses = {
+                'pendiente': 'warning',
+                'prestado': 'primary',
+                'devuelto': 'success',
+                'rechazado': 'danger',
+                'extraviado': 'dark'
+            };
+            return statusClasses[status] || 'secondary';
+        }
     </script>
-    <script src="../frontend/scripts/carrito.js"></script>
 </body>
 
 </html>

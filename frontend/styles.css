@@ -1,6 +1,10 @@
 /* General styles */
 html, body {
     height: 100%;
+    background-image: url("https://images2.alphacoders.com/261/thumb-1920-26102.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 body {
@@ -51,7 +55,7 @@ header nav ul li a img {
     display: flex;
     overflow: hidden;
     width: 100%;
-    height: 200px;
+    height: 100%;
     margin: 20px 0;
     position: relative;
 }
@@ -61,16 +65,29 @@ header nav ul li a img {
     transition: transform 0.5s ease-in-out;
 }
 
+.carousel-container {
+  max-width: auto; /* Adjust the width as needed */
+  margin: 0 auto; /* Center the carousel horizontally */
+  padding: 20px; /* Optional: Add some padding around the carousel */
+  padding-top: 20px;
+}
+
+.carousel-inner img {
+  width: 50%; /* Ensure the images fit within the carousel */
+  height: auto; /* Maintain aspect ratio */
+}
+
 /* Librero styles */
 .libros-disponibles {
     padding: 20px;
-    display: flex;
-    flex-direction: column; /* Arrange items in a single column */
-    align-items: stretch; /* Stretch items to fill the container */
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .libros-disponibles h2 {
     margin-bottom: 20px;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
 .categoria {
@@ -78,54 +95,76 @@ header nav ul li a img {
     margin-bottom: 10px;
     color: white;
     position: absolute;
+    bottom: -25px;
+    left: 10px;
+    color: #333;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2px 10px;
+    border-radius: 3px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .librero {
     display: flex;
-    align-items: flex-end;
     flex-wrap: wrap;
+    gap: 5px;
+    padding: 15px;
+    background: #0f0f0f7e;
+    border-radius: 5px;
+    position: relative;
+    margin-bottom: 60px;
+    padding-bottom: 30px;
 }
 
 .libro {
-    height: 150px; /* Simulate the height of a real book */
+    width: fit-content;
+    min-width: 120px;
+    max-width: 200px;
+    height: 180px;
     color: white;
-    padding: 5px;
-    margin: 5px;
+    padding: 15px;
     cursor: pointer;
-    transition: transform 0.3s ease;
-    background-color: var(--book-color); /* Use CSS variable for book color */
-    width: 100%; /* Full width */
-    margin: 10px 0; /* Vertical margin */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    font-size: 0.9em;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    margin: 0 5px;
+    position: relative;
+    bottom: -15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    writing-mode: horizontal-tb;
+    word-wrap: break-word;
+    overflow: hidden;
 }
 
 .libro:hover {
-    transform: scale(1.05);
-}
-
-/* Define possible book colors */
-:root {
-    --book-color-1: #4CAF50;
-    --book-color-2: #FF5722;
-    --book-color-3: #2196F3;
-    --book-color-4: #FFC107;
-    --book-color-5: #9C27B0;
+    transform: translateY(-15px) scale(1.05);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 1;
 }
 
 .base-madera {
-    width: 110%; /* Increase the width */
-    height: 50px;
-    background-color: #8B4513;
-    margin-top: 10px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 60px; /* Add margin to prevent overlap with footer */
+    width: 100%;
+    height: 30px;
+    background: linear-gradient(to bottom, #8B4513, #654321);
+    border-radius: 5px;
+    position: absolute;
+    bottom: 0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
 main {
     flex: 1;
+}
+
+main p {
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
 footer {
@@ -138,7 +177,8 @@ footer {
     justify-content: center;
     align-items: center;
     position: relative; /* Change to relative */
-    bottom: 0;
+    bottom: 0; /* Ensure it's at the bottom */
+    margin-top: auto; /* Add this line */
 }
 
 footer a {
@@ -156,16 +196,30 @@ footer a:hover {
     top: 0;
     width: 300px;
     height: 100%;
-    background-color: #f4f4f4;
+    background-color: #000000;
     border-left: 1px solid #ccc;
     padding: 20px;
     box-shadow: -2px 0 5px rgba(0,0,0,0.1);
     overflow-y: auto;
     transition: right 0.3s ease; /* Smooth slide-in effect */
+    color: white;
 }
 
 .book-info-panel.open {
     right: 0; /* Slide in */
+}
+
+.book-info-panel h3 {
+    color: white;
+    margin-bottom: 20px;
+}
+
+.book-info-panel p {
+    color: white;
+}
+
+.book-info-panel strong {
+    color: #FF4081;
 }
 
 .login-section {
@@ -342,4 +396,109 @@ footer a:hover {
 
 .modal.show {
     display: block;
+}
+
+.about, .services, .location {
+    padding: 40px 20px;
+    background-color: #fff;
+    margin: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.about h2, .services h2, .location h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.about p, .services p, .location p {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.services .service-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.services .service-item img {
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+}
+
+.location iframe {
+    width: 100%;
+    height: 300px;
+    border: 0;
+}
+
+.call-to-action {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.call-to-action button {
+    padding: 15px 30px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.call-to-action button:hover {
+    background-color: #45a049;
+}
+
+.btn-edit {
+    background-color: #007bff; /* Blue color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-edit:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.btn-delete {
+    background-color: #dc3545; /* Red color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-delete:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+
+.book-cover-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.book-cover {
+    max-width: 80%;
+    max-height: 70%;
+    object-fit: contain;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.book-title {
+    text-align: center;
+    font-size: 0.8em;
+    padding: 5px;
+    word-wrap: break-word;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 }
